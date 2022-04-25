@@ -1,0 +1,11 @@
+.vs/
+.vscode/
+CMakeFiles/
+*.vcxproj*
+*.cmake
+CMakeCache.txt
+*.sln
+othello
+Debug/
+Othello.dir/
+x64/

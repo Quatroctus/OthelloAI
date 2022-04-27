@@ -1,6 +1,8 @@
 # Othello AI
 > [Othello(Reversi)](https://en.wikipedia.org/wiki/Reversi) is a board game where players try to dominate the board with their pieces. I used the MiniMax algorithm to implement an AI which can play against the player or another minimax agent. 
 
+This project was implemented from scratch with a GUI implemented with OpenGL. As such this program cannot run on the OSU Engr servers as they do not have a graphics device. 
+
 ## Source Compiliation
 This repository has compiliation support for Windows and some Linux distros.
 

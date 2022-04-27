@@ -37,6 +37,7 @@ int main(int argc, char** args) {
 
     if (glfwInit() == GLFW_FALSE) {
         std::cerr << "GLFW failed to initialize. Likely no graphics device found.\n";
+        std::cerr << "You may want to check the README.md file." << std::endl;
         return 1;
     }
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

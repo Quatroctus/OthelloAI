@@ -22,6 +22,38 @@ private:
 	Texture(const std::string& filename);
 };
 
+struct Character {
+	glm::vec4 stpq{ 0.0f };
+	glm::ivec2 size{ 0 };
+	glm::ivec2 offset{ 0 };
+	uint32_t advance = 0;
+	Character() = default;
+	Character(const glm::vec4& stpq, const glm::ivec2& size, const glm::ivec2& offset, uint32_t advance);
+};
+
+class Font {
+public:
+	static std::shared_ptr<Font> CreateFont(const std::string& filepath, unsigned char startChar, uint32_t length);
+
+	~Font();
+
+	void bind(uint32_t textureSlot);
+
+	inline const Character& getCharacterData(unsigned char c) {
+		assert(c >= startChar && c < endChar);
+		return characters[c];
+	}
+
+	uint32_t getTextWidth(const std::string& text);
+	int32_t getTextHeight(const std::string& text);
+
+private:
+	uint32_t id;
+	uint32_t startChar, endChar;
+	Character* characters;
+	Font(unsigned char startChar, uint32_t length);
+};
+
 class VertexBuffer {
 public:
 	static Ref<VertexBuffer> CreateVertexBuffer(uint64_t size, const void* data = nullptr);
@@ -145,6 +177,7 @@ enum class Textures { LIGHT_PIECE, DARK_PIECE, LIGHT_BOARD, DARK_BOARD };
 void RendererInit();
 
 void RenderQuad(const glm::vec2& position, Textures texture, float transparency = 1.0f);
+void RenderText(const std::string& text, const glm::vec2& position);
 void RendererFlush();
 
 void RendererShutdown();

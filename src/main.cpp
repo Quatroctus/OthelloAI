@@ -23,7 +23,8 @@ void SetupGLFWEventCallbacks(GLFWwindow* window) {
     glfwSetWindowCloseCallback(window, [](GLFWwindow* window) {
         Running = false;
     });
-
+    glfwSetCursorPosCallback(window, [](GLFWwindow* w, double x, double y) {GameMouseMoveCallback(x, y); });
+    glfwSetMouseButtonCallback(window, [](GLFWwindow* w, int button, int pressed, int mods) { if (button == GLFW_MOUSE_BUTTON_1) GameMouseButtonCallback(pressed); });
 }
 
 int main(int argc, char** args) {
@@ -32,17 +33,7 @@ int main(int argc, char** args) {
         return 2;
     }
 
-    PlayerType player1Type = GetPlayerType(args[1]);
-    PlayerType player2Type = GetPlayerType(args[2]);
-
-    if (player1Type == PlayerType::NONE) {
-        std::cerr << "Invalid player_type: " << args[1] << ".\n    Valid player_types are: human and minimax." << std::endl;
-        return 2;
-    }
-    if (player2Type == PlayerType::NONE) {
-        std::cerr << "Invalid player_type: " << args[2] << ".\n    Valid player_types are: human and minimax." << std::endl;
-        return 2;
-    }
+    if (!ObtainPlayers(args)) return 2;
 
     if (glfwInit() == GLFW_FALSE) {
         std::cerr << "GLFW failed to initialize. Likely no graphics device found.\n";
@@ -90,7 +81,11 @@ int main(int argc, char** args) {
             frames++;
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             // Run the othello board / AI
+            Update();
+            
             RenderBoard();
+            RenderPieces();
+
             RendererFlush();
             glfwSwapBuffers(window);
             glFlush();
